@@ -5,8 +5,6 @@ const App = () => {
 
   const [team, setTeam] = useState([]);
   const [money, setMoney] = useState(100);
-  const [totalStrength, setStrength] = useState(0);
-  const [totalAgility, setAgility] = useState(0);
   const [zombieFighters, setZombieFighters] = useState(
     [
       {
@@ -92,12 +90,13 @@ const App = () => {
     ]
   );
 
+  const totalStrength = team.reduce(((total, member) => total + member.strength) , 0);
+  const totalAgility = team.reduce((total, member) => total + member.agility, 0)
+
   const handleAddFighter = (newTeamMember) => {
     if (money >= newTeamMember.price) {
       setTeam([...team, newTeamMember]);
       setMoney(money - newTeamMember.price);
-      setStrength(totalStrength + newTeamMember.strength);
-      setAgility(totalAgility + newTeamMember.agility);
     } else {
       console.log("You don't have enough money!");
     }
@@ -105,8 +104,6 @@ const App = () => {
 
   const handleRemoveMember = (removedMember) => {
     setMoney(money + removedMember.price);
-    setStrength(totalStrength - removedMember.strength);
-    setAgility(totalAgility - removedMember.agility);
     setTeam(team.filter((member) => member.id !== removedMember.id));
   }
 
